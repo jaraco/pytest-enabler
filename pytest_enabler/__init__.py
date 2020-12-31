@@ -48,6 +48,7 @@ def _remove_deps():
     del sys.modules['jaraco.functools']
     del sys.modules['jaraco.context']
     del sys.modules['toml']
+    del sys.modules['pytest_enabler']
 
 
 def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
