@@ -1,3 +1,4 @@
+import sys
 import textwrap
 import pathlib
 from unittest import mock
@@ -27,3 +28,11 @@ def test_pytest_addoption(tmpdir_cur):
     args = []
     enabler.pytest_load_initial_conftests(config, None, args)
     assert args == ['--black']
+
+
+def test_remove_deps(monkeypatch):
+    """
+    Invoke _remove_deps to push coverage.
+    """
+    monkeypatch.setattr(sys, 'modules', dict(sys.modules))
+    enabler._remove_deps()
