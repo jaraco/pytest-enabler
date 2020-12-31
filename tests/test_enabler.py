@@ -3,13 +3,8 @@ import pathlib
 from unittest import mock
 
 import pytest
-import jaraco.collections
 
 import pytest_enabler as enabler
-
-
-class Bunch(dict, jaraco.collections.ItemsAsAttributes):
-    pass
 
 
 @pytest.fixture
