@@ -67,7 +67,9 @@ def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
     if not new_args or not plugin_enabled:
         return
     _remove_deps()
-    parser.parse_known_and_unknown_args(new_args, early_config.known_args_namespace)
+    # important: parse all known args to ensure pytest-cov can configure
+    # itself based on other plugins like pytest-xdist (see #1).
+    parser.parse_known_and_unknown_args(args, early_config.known_args_namespace)
     with contextlib.suppress(ImportError):
         import pytest_cov.plugin
 

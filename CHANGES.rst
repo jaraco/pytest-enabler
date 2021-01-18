@@ -1,3 +1,8 @@
+v1.0.1
+======
+
+#1: Fixed race condition between pytest-cov and pytest-xdist.
+
 v1.0.0
 ======
 
