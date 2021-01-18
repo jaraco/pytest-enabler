@@ -7,11 +7,9 @@ skip-string-normalization = true
 
 [tool.setuptools_scm]
 
-# jaraco/skeleton#22
 [pytest.enabler.black]
 addopts = "--black"
 
-# jaraco/skeleton#22
 [pytest.enabler.mypy]
 addopts = "--mypy"
 
