@@ -1,6 +1,5 @@
 import contextlib
 import shlex
-import types
 import sys
 
 import toml
@@ -35,10 +34,10 @@ def pytest_load_initial_conftests(early_config, parser, args):
         pm = early_config.pluginmanager
         return pm.has_plugin(name) or pm.has_plugin('pytest_' + name)
 
-    matches = filter(_has_plugin, plugins)
-    for match in matches:
-        args.extend(shlex.split(plugins[match].get('addopts', "")))
-    _pytest_cov_check(plugins, early_config, parser, args)
+    enabled = {key: plugins[key] for key in plugins if _has_plugin(key)}
+    for plugin in enabled.values():
+        args.extend(shlex.split(plugin.get('addopts', "")))
+    _pytest_cov_check(enabled, early_config, parser, args)
 
 
 def _remove_deps():
@@ -63,13 +62,7 @@ def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
     already run and failed to enable the plugin. So, parse the config
     specially and re-run the hook.
     """
-    new_args = shlex.split(plugins.get('cov', {}).get('addopts', ""))
-    plugin_enabled = any(
-        plugin.__name__.startswith('pytest_cov.')
-        for plugin in early_config.pluginmanager.get_plugins()
-        if isinstance(plugin, types.ModuleType)
-    )
-    if not new_args or not plugin_enabled:
+    if 'cov' not in plugins:
         return
     _remove_deps()
     # important: parse all known args to ensure pytest-cov can configure
