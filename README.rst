@@ -21,3 +21,11 @@ The 'enabler' plugin allows configuration of plugins if present, but omits the s
 
     [pytest.enabler.black]
     addopts = "--black"
+
+Known to work with the following plugins:
+
+- pytest-black
+- pytest-cov
+- pytest-flake8
+- pytest-mypy
+- pytest-xdist
