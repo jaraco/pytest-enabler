@@ -1,3 +1,8 @@
+v1.2.0
+======
+
+Simplified implementation.
+
 v1.1.0
 ======
 
