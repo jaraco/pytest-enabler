@@ -30,7 +30,12 @@ def read_plugins(filename):
 
 def pytest_load_initial_conftests(early_config, parser, args):
     plugins = read_plugins('pyproject.toml')
-    matches = filter(early_config.pluginmanager.has_plugin, plugins)
+
+    def _has_plugin(name):
+        pm = early_config.pluginmanager
+        return pm.has_plugin(name) or pm.has_plugin('pytest_' + name)
+
+    matches = filter(_has_plugin, plugins)
     for match in matches:
         args.extend(shlex.split(plugins[match].get('addopts', "")))
     _pytest_cov_check(plugins, early_config, parser, args)

@@ -1,3 +1,9 @@
+v1.1.0
+======
+
+#2: Package now properly recognizes the ``pytest_cov`` plugin
+as ``cov`` (and same for others).
+
 v1.0.1
 ======
 
