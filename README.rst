@@ -17,6 +17,9 @@
 .. .. image:: https://readthedocs.org/projects/skeleton/badge/?version=latest
 ..    :target: https://skeleton.readthedocs.io/en/latest/?badge=latest
 
+.. image:: https://img.shields.io/badge/skeleton-2021-informational
+   :target: https://blog.jaraco.com/skeleton
+
 The 'enabler' plugin allows configuration of plugins if present, but omits the settings if the plugin is not present. For example, to configure black to be enabled if the plugin is present, but not when it is not, add the following to your pyproject.toml::
 
     [pytest.enabler.black]
