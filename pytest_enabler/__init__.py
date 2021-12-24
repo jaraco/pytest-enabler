@@ -1,6 +1,7 @@
 import contextlib
 import shlex
 import sys
+import warnings
 
 import toml
 from jaraco.context import suppress
@@ -24,7 +25,12 @@ def none_as_empty(ob):
 def read_plugins(filename):
     with open(filename) as strm:
         defn = toml.load(strm)
-    return defn["pytest"]["enabler"]
+    if "pytest" in defn and "enabler" in defn["pytest"]:
+        msg = "pytest-enabler configuration should use the `[tool.pytest-enabler]` "
+        msg += "table in pyproject.toml (`[pytest.enabler]` is now deprecated)."
+        warnings.warn(msg, DeprecationWarning)
+        return defn["pytest"]["enabler"]
+    return defn["tool"]["pytest-enabler"]
 
 
 def pytest_load_initial_conftests(early_config, parser, args):
