@@ -1,3 +1,9 @@
+v1.3.0
+======
+
+#4: pytest-enabler now uses ``[tool.pytest-enabler]`` for configuration
+in accordance with :pep:`518#tool-table` (``[pytest.enabler]`` is deprecated).
+
 v1.2.1
 ======
 

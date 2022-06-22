@@ -18,7 +18,7 @@ def test_pytest_addoption(tmpdir_cur):
     pathlib.Path('pyproject.toml').write_text(
         textwrap.dedent(
             """
-            [pytest.enabler.black]
+            [tool.pytest-enabler.black]
             addopts = "--black"
             """
         )
@@ -27,6 +27,23 @@ def test_pytest_addoption(tmpdir_cur):
     config.pluginmanager.has_plugin = lambda name: name == 'black'
     args = []
     enabler.pytest_load_initial_conftests(config, None, args)
+    assert args == ['--black']
+
+
+def test_pytest_addoption_legacy(tmpdir_cur):
+    pathlib.Path('pyproject.toml').write_text(
+        textwrap.dedent(
+            """
+            [pytest.enabler.black]
+            addopts = "--black"
+            """
+        )
+    )
+    config = mock.MagicMock()
+    config.pluginmanager.has_plugin = lambda name: name == 'black'
+    args = []
+    with pytest.warns(DeprecationWarning):
+        enabler.pytest_load_initial_conftests(config, None, args)
     assert args == ['--black']
 
 
