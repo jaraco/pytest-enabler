@@ -25,12 +25,18 @@ def none_as_empty(ob):
 def read_plugins(filename):
     with open(filename) as strm:
         defn = toml.load(strm)
-    if "pytest" in defn and "enabler" in defn["pytest"]:
-        msg = "pytest-enabler configuration should use the `[tool.pytest-enabler]` "
-        msg += "table in pyproject.toml (`[pytest.enabler]` is now deprecated)."
-        warnings.warn(msg, DeprecationWarning)
-        return defn["pytest"]["enabler"]
-    return defn["tool"]["pytest-enabler"]
+    return _read_plugins_legacy(defn) or defn["tool"]["pytest-enabler"]
+
+
+@suppress(KeyError)
+def _read_plugins_legacy(defn):
+    value = defn["pytest"]["enabler"]
+    msg = (
+        "pytest-enabler configuration should use the `[tool.pytest-enabler]` "
+        "table in pyproject.toml (`[pytest.enabler]` is now deprecated)."
+    )
+    warnings.warn(msg, DeprecationWarning)
+    return value
 
 
 def pytest_load_initial_conftests(early_config, parser, args):
