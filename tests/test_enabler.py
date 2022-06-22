@@ -14,12 +14,11 @@ def tmpdir_cur(tmpdir):
         yield tmpdir
 
 
-@pytest.mark.parametrize("config_table", ["tool.pytest-enabler", "pytest.enabler"])
-def test_pytest_addoption(tmpdir_cur, config_table):
+def test_pytest_addoption(tmpdir_cur):
     pathlib.Path('pyproject.toml').write_text(
         textwrap.dedent(
-            f"""
-            [{config_table}.black]
+            """
+            [tool.pytest-enabler.black]
             addopts = "--black"
             """
         )
@@ -27,11 +26,24 @@ def test_pytest_addoption(tmpdir_cur, config_table):
     config = mock.MagicMock()
     config.pluginmanager.has_plugin = lambda name: name == 'black'
     args = []
-    if config_table.startswith("tool."):
+    enabler.pytest_load_initial_conftests(config, None, args)
+    assert args == ['--black']
+
+
+def test_pytest_addoption_legacy(tmpdir_cur):
+    pathlib.Path('pyproject.toml').write_text(
+        textwrap.dedent(
+            """
+            [pytest.enabler.black]
+            addopts = "--black"
+            """
+        )
+    )
+    config = mock.MagicMock()
+    config.pluginmanager.has_plugin = lambda name: name == 'black'
+    args = []
+    with pytest.warns(DeprecationWarning):
         enabler.pytest_load_initial_conftests(config, None, args)
-    else:
-        with pytest.warns(DeprecationWarning):
-            enabler.pytest_load_initial_conftests(config, None, args)
     assert args == ['--black']
 
 
