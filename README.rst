@@ -25,6 +25,10 @@ The 'enabler' plugin allows configuration of plugins if present, but omits the s
     [tool.pytest-enabler.black]
     addopts = "--black"
 
+Then, to temporarily disable a plugin, use pytest's built-in support for disabling a plugin::
+
+    pytest -p no:black
+
 Known to work with the following plugins:
 
 - pytest-black
