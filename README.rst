@@ -1,10 +1,7 @@
 .. image:: https://img.shields.io/pypi/v/pytest-enabler.svg
-   :target: `PyPI link`_
+   :target: https://pypi.org/project/pytest-enabler
 
 .. image:: https://img.shields.io/pypi/pyversions/pytest-enabler.svg
-   :target: `PyPI link`_
-
-.. _PyPI link: https://pypi.org/project/pytest-enabler
 
 .. image:: https://github.com/jaraco/pytest-enabler/workflows/tests/badge.svg
    :target: https://github.com/jaraco/pytest-enabler/actions?query=workflow%3A%22tests%22
