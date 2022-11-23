@@ -1,3 +1,9 @@
+v2.0.0
+======
+
+#4: Remove compatibility shim. ``[pytest.enabler]`` is no longer
+supported.
+
 v1.3.1
 ======
 
