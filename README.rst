@@ -1,10 +1,7 @@
 .. image:: https://img.shields.io/pypi/v/pytest-enabler.svg
-   :target: `PyPI link`_
+   :target: https://pypi.org/project/pytest-enabler
 
 .. image:: https://img.shields.io/pypi/pyversions/pytest-enabler.svg
-   :target: `PyPI link`_
-
-.. _PyPI link: https://pypi.org/project/pytest-enabler
 
 .. image:: https://github.com/jaraco/pytest-enabler/workflows/tests/badge.svg
    :target: https://github.com/jaraco/pytest-enabler/actions?query=workflow%3A%22tests%22
@@ -24,6 +21,10 @@ The 'enabler' plugin allows configuration of plugins if present, but omits the s
 
     [tool.pytest-enabler.black]
     addopts = "--black"
+
+Then, to temporarily disable a plugin, use pytest's built-in support for disabling a plugin::
+
+    pytest -p no:black
 
 Known to work with the following plugins:
 
