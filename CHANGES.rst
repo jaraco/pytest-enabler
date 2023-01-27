@@ -1,3 +1,8 @@
+v2.1.0
+======
+
+Fixed EncodingWarning when PEP 597 warn_default_encoding is enabled.
+
 v2.0.0
 ======
 

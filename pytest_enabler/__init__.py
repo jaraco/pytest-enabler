@@ -22,7 +22,7 @@ def none_as_empty(ob):
 @apply(none_as_empty)
 @suppress(Exception)
 def read_plugins(filename):
-    with open(filename) as strm:
+    with open(filename, encoding='utf-8') as strm:
         defn = toml.load(strm)
     return defn["tool"]["pytest-enabler"]
 
