@@ -21,7 +21,8 @@ def test_pytest_addoption(tmpdir_cur):
             [tool.pytest-enabler.black]
             addopts = "--black"
             """
-        )
+        ),
+        encoding='utf-8',
     )
     config = mock.MagicMock()
     config.pluginmanager.has_plugin = lambda name: name == 'black'
