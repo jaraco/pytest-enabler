@@ -32,4 +32,5 @@ Known to work with the following plugins:
 - pytest-cov
 - pytest-flake8
 - pytest-mypy
+- pytest-ruff
 - pytest-xdist
