@@ -21,7 +21,7 @@
 .. image:: https://img.shields.io/badge/skeleton-2023-informational
    :target: https://blog.jaraco.com/skeleton
 
-The 'enabler' plugin allows configuration of plugins if present, but omits the settings if the plugin is not present. For example, to configure black to be enabled if the plugin is present, but not when it is not, add the following to your pyproject.toml::
+The ``enabler`` plugin allows configuration of plugins if present, but omits the settings if the plugin is not present. For example, the following config enables black to be enabled when present::
 
     [tool.pytest-enabler.black]
     addopts = "--black"
@@ -29,6 +29,8 @@ The 'enabler' plugin allows configuration of plugins if present, but omits the s
 Then, to temporarily disable a plugin, use pytest's built-in support for disabling a plugin::
 
     pytest -p no:black
+
+``enabler`` includes a `default config <https://github.com/jaraco/pytest-enabler/blob/main/pytest_enabler/default.toml>`_.
 
 Known to work with the following plugins:
 

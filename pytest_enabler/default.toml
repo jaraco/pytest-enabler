@@ -1,0 +1,14 @@
+[tool.pytest-enabler.black]
+addopts = "--black"
+
+[tool.pytest-enabler.mypy]
+addopts = "--mypy"
+
+[tool.pytest-enabler.cov]
+addopts = "--cov"
+
+[tool.pytest-enabler.ruff]
+addopts = "--ruff"
+
+[tool.pytest-enabler.xdist]
+addopts = "-n auto"

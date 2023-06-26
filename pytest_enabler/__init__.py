@@ -1,6 +1,9 @@
 import contextlib
+import pathlib
 import shlex
 import sys
+
+import importlib_resources as resources
 
 import toml
 from jaraco.context import suppress
@@ -19,16 +22,23 @@ def none_as_empty(ob):
     return ob or {}
 
 
-@apply(none_as_empty)
-@suppress(Exception)
-def read_plugins(filename):
-    with open(filename, encoding='utf-8') as strm:
-        defn = toml.load(strm)
+def read_plugins_stream(stream):
+    defn = toml.load(stream)
     return defn["tool"]["pytest-enabler"]
 
 
+@apply(none_as_empty)
+@suppress(Exception)
+def read_plugins(path):
+    with path.open(encoding='utf-8') as stream:
+        return read_plugins_stream(stream)
+
+
 def pytest_load_initial_conftests(early_config, parser, args):
-    plugins = read_plugins('pyproject.toml')
+    plugins = {
+        **read_plugins(resources.files().joinpath('default.toml')),
+        **read_plugins(pathlib.Path('pyproject.toml')),
+    }
 
     def _has_plugin(name):
         pm = early_config.pluginmanager
