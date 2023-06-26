@@ -1,1 +1,0 @@
-Enabler plugin now includes a default config, enabling the known supported plugins. It's no longer necessary for each project to supply the config to enable plugins.

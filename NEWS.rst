@@ -1,3 +1,13 @@
+v2.2.0
+======
+
+Features
+--------
+
+- Enabler plugin now includes a default config, enabling the known supported plugins. It's no longer necessary for each project to supply the config to enable plugins.
+- Require Python 3.8 or later.
+
+
 v2.1.1
 ======
 
