@@ -12,3 +12,6 @@ addopts = "--ruff"
 
 [tool.pytest-enabler.xdist]
 addopts = "-n auto"
+
+[tool.pytest-enabler.ignore-flaky]
+addopts = "--ignore-flaky"

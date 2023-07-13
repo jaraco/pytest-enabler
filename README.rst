@@ -40,3 +40,4 @@ Known to work with the following plugins:
 - pytest-mypy
 - pytest-ruff
 - pytest-xdist
+- pytest-ignore-flaky
