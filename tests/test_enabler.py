@@ -1,3 +1,4 @@
+import subprocess
 import sys
 from unittest import mock
 
@@ -44,3 +45,11 @@ def test_remove_deps(monkeypatch):
     """
     monkeypatch.setattr(sys, 'modules', dict(sys.modules))
     enabler._remove_deps()
+
+
+@pytest.mark.xfail(reason="#8")
+def test_coverage_explicit(tmp_path, monkeypatch):
+    monkeypatch.chdir(tmp_path)
+    test = tmp_path.joinpath('test_x.py')
+    test.write_text('def test_x():\n    pass\n', encoding='utf-8')
+    subprocess.check_call([sys.executable, '-m', 'pytest', '--cov'])
