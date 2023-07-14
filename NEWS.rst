@@ -1,3 +1,12 @@
+v2.3.1
+======
+
+Bugfixes
+--------
+
+- Fix default config for ignore-flaky.
+
+
 v2.3.0
 ======
 
