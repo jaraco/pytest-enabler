@@ -22,7 +22,10 @@ def test_pytest_addoption_default():
 
 
 def test_pytest_addoption_override(pyproject):
-    pyproject.write_text('[tool.pytest-enabler.black]\naddopts="--black2"\n')
+    pyproject.write_text(
+        '[tool.pytest-enabler.black]\naddopts="--black2"\n',
+        encoding='utf-8',
+    )
     config = mock.MagicMock()
     config.pluginmanager.has_plugin = lambda name: name == 'black'
     args = []
@@ -31,7 +34,10 @@ def test_pytest_addoption_override(pyproject):
 
 
 def test_pytest_addoption_disable(pyproject):
-    pyproject.write_text('[tool.pytest-enabler.black]\n#addopts="--black"\n')
+    pyproject.write_text(
+        '[tool.pytest-enabler.black]\n#addopts="--black"\n',
+        encoding='utf-8',
+    )
     config = mock.MagicMock()
     config.pluginmanager.has_plugin = lambda name: name == 'black'
     args = []
