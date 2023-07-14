@@ -1,3 +1,18 @@
+v2.3.0
+======
+
+Features
+--------
+
+- Added support for pytest-ignore-flaky.
+
+
+Bugfixes
+--------
+
+- If pytest-cov is explicitly enabled, bypass special handling. (#8)
+
+
 v2.2.0
 ======
 

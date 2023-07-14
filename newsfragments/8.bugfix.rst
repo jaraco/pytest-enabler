@@ -1,1 +1,0 @@
-If pytest-cov is explicitly enabled, bypass special handling.
