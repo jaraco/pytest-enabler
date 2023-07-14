@@ -47,7 +47,6 @@ def test_remove_deps(monkeypatch):
     enabler._remove_deps()
 
 
-@pytest.mark.xfail(reason="#8")
 def test_coverage_explicit(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
     test = tmp_path.joinpath('test_x.py')
