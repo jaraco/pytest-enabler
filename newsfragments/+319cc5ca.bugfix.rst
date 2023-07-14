@@ -1,0 +1,1 @@
+Fix default config for ignore-flaky.
