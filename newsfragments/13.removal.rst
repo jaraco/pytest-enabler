@@ -1,0 +1,1 @@
+Ruff formatter is now enabled by default.
