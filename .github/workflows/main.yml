@@ -1,11 +1,6 @@
 name: tests
 
-on:
-  merge_group:
-  push:
-    branches-ignore:
-    - gh-readonly-queue/**  # Temporary merge queue-related GH-made branches
-  pull_request:
+on: [push, pull_request]
 
 permissions:
   contents: read
