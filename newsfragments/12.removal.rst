@@ -1,1 +1,0 @@
-Renamed the plugin from 'plugin-enabled options' to 'enabler'.

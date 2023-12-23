@@ -1,3 +1,13 @@
+v3.0.0
+======
+
+Deprecations and Removals
+-------------------------
+
+- Renamed the plugin from 'plugin-enabled options' to 'enabler'. (#12)
+- Ruff formatter is now enabled by default. (#13)
+
+
 v2.3.1
 ======
 
