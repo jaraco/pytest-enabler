@@ -1,6 +1,12 @@
 name: tests
 
-on: [push, pull_request]
+on:
+  merge_group:
+  push:
+    branches-ignore:
+    # disabled for jaraco/skeleton#103
+    # - gh-readonly-queue/**  # Temporary merge queue-related GH-made branches
+  pull_request:
 
 permissions:
   contents: read
