@@ -14,7 +14,7 @@
 .. image:: https://readthedocs.org/projects/pytest-enabler/badge/?version=latest
    :target: https://pytest-enabler.readthedocs.io/en/latest/?badge=latest
 
-.. image:: https://img.shields.io/badge/skeleton-2023-informational
+.. image:: https://img.shields.io/badge/skeleton-2024-informational
    :target: https://blog.jaraco.com/skeleton
 
 The ``enabler`` plugin allows configuration of plugins if present, but omits the settings if the plugin is not present. For example, the following config enables black to be enabled when present::
