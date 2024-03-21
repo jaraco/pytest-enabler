@@ -1,3 +1,12 @@
+v3.1.0
+======
+
+Features
+--------
+
+- Rely on stdlib for importlib.resources where compatible.
+
+
 v3.0.0
 ======
 

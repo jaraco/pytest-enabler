@@ -1,1 +1,0 @@
-Rely on stdlib for importlib.resources where compatible.
