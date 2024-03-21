@@ -1,5 +1,6 @@
 import contextlib
 import pathlib
+import re
 import shlex
 import sys
 
@@ -12,6 +13,12 @@ else:
 import toml
 from jaraco.context import suppress
 from jaraco.functools import apply
+
+
+consume = tuple
+"""
+Consume an iterable
+"""
 
 
 def none_as_empty(ob):
@@ -60,13 +67,19 @@ def _remove_deps():
     if the functions are defined before coverage is invoked. As
     a result, when testing any of the dependencies above, their
     functions will appear not to be covered. To avoid this behavior,
-    unload the modules above so they may be tested for coverage
-    on import as well.
+    unload the modules above (and submodules) so they may be tested
+    for coverage on import as well.
     """
-    del sys.modules['jaraco.functools']
-    del sys.modules['jaraco.context']
-    del sys.modules['toml']
-    del sys.modules['pytest_enabler']
+    third_party_imports = (
+        'importlib_resources',
+        'jaraco.context',
+        'jaraco.functools',
+        'pytest_enabler',
+        'toml',
+    )
+    pattern = re.compile('|'.join(map(re.escape, third_party_imports)))
+    to_delete = tuple(filter(pattern.match, sys.modules))
+    consume(map(sys.modules.__delitem__, to_delete))
 
 
 def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
