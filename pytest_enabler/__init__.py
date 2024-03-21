@@ -3,7 +3,11 @@ import pathlib
 import shlex
 import sys
 
-import importlib_resources as resources
+if sys.version_info > (3, 12):
+    from importlib import resources
+else:
+    import importlib_resources as resources
+
 
 import toml
 from jaraco.context import suppress
