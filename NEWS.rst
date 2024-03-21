@@ -1,3 +1,12 @@
+v3.1.1
+======
+
+Bugfixes
+--------
+
+- Ensure importlib_resources is included in the dependencies removed for coverage concerns.
+
+
 v3.1.0
 ======
 
