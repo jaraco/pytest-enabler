@@ -1,27 +1,46 @@
-import contextlib
+from __future__ import annotations
+
+import os
 import pathlib
 import re
 import shlex
 import sys
-
-if sys.version_info > (3, 12):
-    from importlib import resources
-else:
-    import importlib_resources as resources
-
+from collections.abc import Container, MutableSequence, Sequence
+from typing import TYPE_CHECKING, TypeVar, overload
 
 import toml
 from jaraco.context import suppress
 from jaraco.functools import apply
+from pytest import Config, Parser
+
+if sys.version_info >= (3, 12):
+    from importlib import resources
+else:
+    import importlib_resources as resources
+
+if sys.version_info >= (3, 9):
+    from importlib.abc import Traversable
+else:
+    from pathlib import Path as Traversable
+
+if TYPE_CHECKING:
+    from _typeshed import SupportsRead
+    from typing_extensions import Never
 
 
-consume = tuple
+_T = TypeVar("_T")
+
+consume = tuple  # type: ignore[type-arg] # Generic doesn't matter here and we need to keep it callable
 """
 Consume an iterable
 """
 
 
-def none_as_empty(ob):
+@overload
+def none_as_empty(ob: None) -> dict[Never, Never]: ...
+@overload
+def none_as_empty(ob: _T) -> _T: ...
+def none_as_empty(ob: _T | None) -> _T | dict[Never, Never]:
     """
     >>> none_as_empty({})
     {}
@@ -33,25 +52,31 @@ def none_as_empty(ob):
     return ob or {}
 
 
-def read_plugins_stream(stream):
+def read_plugins_stream(
+    stream: str | bytes | pathlib.PurePath | SupportsRead[str],
+) -> dict[str, dict[str, str]]:
     defn = toml.load(stream)
-    return defn["tool"]["pytest-enabler"]
+    return defn["tool"]["pytest-enabler"]  # type: ignore[no-any-return]
 
 
 @apply(none_as_empty)
 @suppress(Exception)
-def read_plugins(path):
+def read_plugins(path: Traversable) -> dict[str, dict[str, str]]:
     with path.open(encoding='utf-8') as stream:
         return read_plugins_stream(stream)
 
 
-def pytest_load_initial_conftests(early_config, parser, args):
+def pytest_load_initial_conftests(
+    early_config: Config,
+    parser: Parser | None,
+    args: MutableSequence[str],
+) -> None:
     plugins = {
         **read_plugins(resources.files().joinpath('default.toml')),
         **read_plugins(pathlib.Path('pyproject.toml')),
     }
 
-    def _has_plugin(name):
+    def _has_plugin(name: str) -> bool:
         pm = early_config.pluginmanager
         return pm.has_plugin(name) or pm.has_plugin('pytest_' + name)
 
@@ -61,7 +86,7 @@ def pytest_load_initial_conftests(early_config, parser, args):
     _pytest_cov_check(enabled, early_config, parser, args)
 
 
-def _remove_deps():
+def _remove_deps() -> None:
     """
     Coverage will not detect function definitions as being covered
     if the functions are defined before coverage is invoked. As
@@ -82,7 +107,12 @@ def _remove_deps():
     consume(map(sys.modules.__delitem__, to_delete))
 
 
-def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
+def _pytest_cov_check(
+    plugins: Container[str],
+    early_config: Config,
+    parser: Parser | None,
+    args: Sequence[str | os.PathLike[str]],
+) -> None:  # pragma: nocover
     """
     pytest_cov runs its command-line checks so early that no hooks
     can intervene. By now, the hook that installs the plugin has
@@ -99,9 +129,13 @@ def _pytest_cov_check(plugins, early_config, parser, args):  # pragma: nocover
     _remove_deps()
     # important: parse all known args to ensure pytest-cov can configure
     # itself based on other plugins like pytest-xdist (see #1).
+    if parser is None:
+        raise ValueError("parser cannot be None if cov in plugins")
     parser.parse_known_and_unknown_args(args, early_config.known_args_namespace)
 
-    with contextlib.suppress(ImportError):
+    try:
         import pytest_cov.plugin
+    except ImportError:
+        pass
 
     pytest_cov.plugin.pytest_load_initial_conftests(early_config, parser, args)

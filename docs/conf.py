@@ -30,6 +30,7 @@ link_files = {
 
 # Be strict about any broken references
 nitpicky = True
+nitpick_ignore = []
 
 # Include Python intersphinx mapping to prevent failures
 # jaraco/skeleton#51
@@ -40,3 +41,11 @@ intersphinx_mapping = {
 
 # Preserve authored syntax for defaults
 autodoc_preserve_defaults = True
+
+# jaraco/pytest-enabler#18
+nitpick_ignore += [
+    ('py:class', 'pytest_enabler._T'),
+    ('py:class', '_pytest.config.Config'),
+    ('py:class', '_pytest.config.argparsing.Parser'),
+    ('py:class', 'SupportsRead'),
+]
