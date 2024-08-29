@@ -1,3 +1,12 @@
+v3.2.0
+======
+
+Features
+--------
+
+- Complete annotations and add ``py.typed`` marker -- by :user:`Avasam` (#18)
+
+
 v3.1.1
 ======
 
