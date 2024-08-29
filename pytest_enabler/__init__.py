@@ -21,7 +21,7 @@ else:
 
 if sys.version_info >= (3, 9):
     from importlib.abc import Traversable
-else:
+else:  # pragma: no cover
     from pathlib import Path as Traversable
 
 if TYPE_CHECKING:

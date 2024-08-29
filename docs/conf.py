@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 extensions = [
     'sphinx.ext.autodoc',
     'jaraco.packaging.sphinx',
@@ -30,7 +33,7 @@ link_files = {
 
 # Be strict about any broken references
 nitpicky = True
-nitpick_ignore = []
+nitpick_ignore: list[tuple[str, str]] = []
 
 # Include Python intersphinx mapping to prevent failures
 # jaraco/skeleton#51
@@ -41,6 +44,8 @@ intersphinx_mapping = {
 
 # Preserve authored syntax for defaults
 autodoc_preserve_defaults = True
+
+# local
 
 # jaraco/pytest-enabler#18
 nitpick_ignore += [
