@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import contextlib
 import os
 import pathlib
 import re
 import shlex
 import sys
 from collections.abc import Container, MutableSequence, Sequence
-from typing import TYPE_CHECKING, TypeVar, overload
+from typing import TYPE_CHECKING, TypeVar, cast, overload
 
 import toml
 from jaraco.context import suppress
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
 
 _T = TypeVar("_T")
 
-consume = tuple  # type: ignore[type-arg] # Generic doesn't matter here and we need to keep it callable
+consume = tuple  # type: ignore[type-arg] # Generic doesn't matter; keep it callable
 """
 Consume an iterable
 """
@@ -83,7 +84,14 @@ def pytest_load_initial_conftests(
     enabled = {key: plugins[key] for key in plugins if _has_plugin(key)}
     for plugin in enabled.values():
         args.extend(shlex.split(plugin.get('addopts', "")))
-    _pytest_cov_check(enabled, early_config, parser, args)
+    _pytest_cov_check(
+        enabled,
+        early_config,
+        # parser is only used when known not to be None
+        # based on `enabled` and `early_config`.
+        cast(Parser, parser),
+        args,
+    )
 
 
 def _remove_deps() -> None:
@@ -110,7 +118,7 @@ def _remove_deps() -> None:
 def _pytest_cov_check(
     plugins: Container[str],
     early_config: Config,
-    parser: Parser | None,
+    parser: Parser,
     args: Sequence[str | os.PathLike[str]],
 ) -> None:  # pragma: nocover
     """
@@ -129,13 +137,9 @@ def _pytest_cov_check(
     _remove_deps()
     # important: parse all known args to ensure pytest-cov can configure
     # itself based on other plugins like pytest-xdist (see #1).
-    if parser is None:
-        raise ValueError("parser cannot be None if cov in plugins")
     parser.parse_known_and_unknown_args(args, early_config.known_args_namespace)
 
-    try:
+    with contextlib.suppress(ImportError):
         import pytest_cov.plugin
-    except ImportError:
-        pass
 
     pytest_cov.plugin.pytest_load_initial_conftests(early_config, parser, args)
