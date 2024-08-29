@@ -7,7 +7,7 @@ import re
 import shlex
 import sys
 from collections.abc import Container, MutableSequence, Sequence
-from typing import TYPE_CHECKING, TypeVar, overload
+from typing import TYPE_CHECKING, TypeVar, cast, overload
 
 import toml
 from jaraco.context import suppress
@@ -127,11 +127,17 @@ def _pytest_cov_check(
         # cov was explicitly configured (#8)
         return
 
+    _pytest_cov_check_inner(early_config, cast(Parser, parser), args)
+
+
+def _pytest_cov_check_inner(
+    early_config: Config,
+    parser: Parser,
+    args: Sequence[str | os.PathLike[str]],
+) -> None:  # pragma: nocover
     _remove_deps()
     # important: parse all known args to ensure pytest-cov can configure
     # itself based on other plugins like pytest-xdist (see #1).
-    if parser is None:
-        raise ValueError("parser cannot be None if cov in plugins")
     parser.parse_known_and_unknown_args(args, early_config.known_args_namespace)
 
     with contextlib.suppress(ImportError):
