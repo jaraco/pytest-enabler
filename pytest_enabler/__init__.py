@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import contextlib
 import os
 import pathlib
 import re
@@ -30,7 +31,7 @@ if TYPE_CHECKING:
 
 _T = TypeVar("_T")
 
-consume = tuple  # type: ignore[type-arg] # Generic doesn't matter here and we need to keep it callable
+consume = tuple  # type: ignore[type-arg] # Generic doesn't matter; keep it callable
 """
 Consume an iterable
 """
@@ -133,9 +134,7 @@ def _pytest_cov_check(
         raise ValueError("parser cannot be None if cov in plugins")
     parser.parse_known_and_unknown_args(args, early_config.known_args_namespace)
 
-    try:
+    with contextlib.suppress(ImportError):
         import pytest_cov.plugin
-    except ImportError:
-        pass
 
     pytest_cov.plugin.pytest_load_initial_conftests(early_config, parser, args)
