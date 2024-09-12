@@ -60,7 +60,7 @@ def read_plugins_stream(
 @apply(none_as_empty)
 @suppress(Exception)
 def read_plugins(path: Traversable) -> dict[str, dict[str, str]]:
-    with path.open(encoding='utf-8') as stream:
+    with path.open(encoding='utf-8') as stream:  # type: ignore[no-untyped-call, unused-ignore]  # python/importlib_resources#137
         return read_plugins_stream(stream)
 
 
