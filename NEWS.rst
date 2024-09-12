@@ -1,3 +1,12 @@
+v3.3.0
+======
+
+Features
+--------
+
+- Get Traversable from importlib.abc or importlib_resources.abc for better compatibility with Python 3.14.
+
+
 v3.2.0
 ======
 
