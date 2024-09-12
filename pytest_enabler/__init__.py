@@ -16,13 +16,10 @@ from pytest import Config, Parser
 
 if sys.version_info >= (3, 12):
     from importlib import resources
+    from importlib.resources.abc import Traversable
 else:
     import importlib_resources as resources
-
-if sys.version_info >= (3, 9):
-    from importlib.abc import Traversable
-else:  # pragma: no cover
-    from pathlib import Path as Traversable
+    from importlib_resources.abc import Traversable
 
 if TYPE_CHECKING:
     from _typeshed import SupportsRead
