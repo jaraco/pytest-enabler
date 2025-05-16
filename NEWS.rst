@@ -1,3 +1,13 @@
+v3.4.0
+======
+
+Features
+--------
+
+- Suppress status check in mypy. (#19)
+- In mypy, use best practice of rendering file paths consistently. (#20)
+
+
 v3.3.0
 ======
 
