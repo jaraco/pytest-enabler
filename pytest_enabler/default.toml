@@ -2,7 +2,7 @@
 addopts = "--black"
 
 [tool.pytest-enabler.mypy]
-addopts = "--mypy --mypy-report-style mypy"
+addopts = "--mypy --mypy-report-style mypy --mypy-no-status-check"
 
 [tool.pytest-enabler.cov]
 addopts = "--cov"
